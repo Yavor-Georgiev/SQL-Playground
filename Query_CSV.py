@@ -4,7 +4,6 @@ import sqlalchemy as sa
 print('\nCreated by:\n')
 print('\tYAVOR GEORGIEV')
 print('\tGitHub: https://github.com/Yavor-Georgiev/')
-print('\tLinkedIn: https://www.linkedin.com/in/yavor-georgiev-agile/')
 print('\t2022\n')
 
 print('Version: ', pd.__version__, '(Pandas)')
