@@ -39,8 +39,10 @@ if __name__=='__main__':
         for r in result:
             print(r)
 
+    #Save the result to pandas dataframe
     out_df = DataFrame(result)
     
+    #Output result dataframe to a CSV file
     out_df.to_csv('/storage/emulated/0/documents/Northwind_csv-main/result1.csv', header=False, index=False)
     
     print('\n', out_df)
