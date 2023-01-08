@@ -1,31 +1,27 @@
-import pandas as pd
-import sqlalchemy as sa
+from pandas import read_csv, DataFrame
+from sqlalchemy import create_engine, sql
 
 print('\nCreated by:\n')
 print('\tYAVOR GEORGIEV')
 print('\tGitHub: https://github.com/Yavor-Georgiev/')
 print('\t2022\n')
 
-print('Version: ', pd.__version__, '(Pandas)')
-print('\t ', sa.__version__, '(SQL Alchemy)')
-
-print('\n')
-
 if __name__=='__main__':
 
     #Create in-memory sqlite database
-    engine = sa.create_engine('sqlite://')
-    #Create in-file sqlite db
+    engine = create_engine('sqlite://')
+
+#Create in-file sqlite db
     #engine = sa.create_engine(r'sqlite:///C:\...PATH...\FILENAME.db')
 
     #Read CSV file to pandas dataframe
-    df = pd.read_csv('C:\Projects_temp\CarSales.csv')
+    in_df = read_csv('/storage/emulated/0/documents/Northwind_csv-main/us_states.csv')
 
-    #print(df.shape)
+    print('Input table has', in_df.shape[0], 'rows and', in_df.shape[1], 'columns\n')
 
     #Write the pandas dataframe to specific table in the connected db and
     #drop the build-in dataframe index
-    df.to_sql(con=engine, name='Table1', if_exists='replace', index=False)
+    in_df.to_sql(con=engine, name='Table1', if_exists='replace', index=False)
 
     #Construct the SQL querry 
     sql_query = '''
@@ -34,7 +30,7 @@ if __name__=='__main__':
 
     #Execute querry on the connected database
     with engine.connect().execution_options(autocommit=True) as conn:
-        exe = conn.execute(sa.sql.text(sql_query))
+        exe = conn.execute(sql.text(sql_query))
         
         #Get all results
         result = exe.fetchall()
@@ -43,4 +39,8 @@ if __name__=='__main__':
         for r in result:
             print(r)
 
-    #result_df = pd.DataFrame(result)
+    out_df = DataFrame(result)
+    
+    out_df.to_csv('/storage/emulated/0/documents/Northwind_csv-main/result1.csv', header=False, index=False)
+    
+    print('\n', out_df)
